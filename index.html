@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+        
+        <!-- style mobile-->
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.0.css">
+
+        <!-- scripts -->
+        
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/jquery.mobile-1.4.0.js"></script>
+        <script src="cordova.js"></script>
+         
+
+        <!-- Personalizated script -->
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/dbfunctios.js"></script>
+
+        <script type="text/javascript">
+        document.addEventListener("deviceready", onDeviceReady, false);
+        var db ;
+        var shorname ='quarxoDb';
+        var version = '1.0';
+        var displayName = 'Quarxodb';
+        var maxSize = 42000000;
+
+        function onDeviceReady(){
+            db = window.openDatabase(shorname, version, displayName, maxSize);
+            // alert(device.uuid);
+             $("#pedidos").click(function(){
+                if(!localStorage.vendedor){
+                    alert("Para Ingresar a este modulo primero debe Identificarse.")
+                }else{
+                    window.location.href="modules/order/orders.html";
+                }
+            });
+        }
+
+        function login(exp){
+             db = window.openDatabase(shorname, version, displayName, maxSize);
+          db.transaction(function (tx){               
+            var SQL ="SELECT id, nombres,trim(nit) as  nit ,zona FROM vendedor  where trim(nit) = '"+exp+"'";
+            tx.executeSql(SQL, [], function (tx, results){
+                var len = results.rows.length;
+                var name = "";
+                if(len >0){
+                    for (var i=0; i<len; i++){
+                        localStorage.vendedor = results.rows.item(i).id;                        
+                        name = results.rows.item(i).nombres;
+                        zona = results.rows.item(i).zona;
+                        localStorage.nombre = name;
+                        localStorage.zona = zona;
+                        localStorage.venced = exp;
+                    }
+                    alert("Bienvenido: "+name)
+                    $("#popupLogin").popup( "close" );
+                    $("#datosVendedor").html("<p>Identificado como: "+name+" de la zona n°: "+localStorage.zona+"</p>");
+                }else{
+                    alert("El Usuario no Existe");
+                }
+            }, function (err){
+                console.log("error en la transaccion "+err.message);
+            });           
+         },Error);
+        }
+
+        $( document ).bind( "pageinit", "#page", function() {
+
+            if(localStorage.vendedor){
+                $("#datosVendedor").html("<p>Identificado como: "+localStorage.nombre+"</p>");
+            }
+            $("#identificar").click(function() {
+               //alert($("#cedula").val());
+               login($("#cedula").val());
+
+            }); 
+
+
+        });        
+        </script>
+    </head>
+    <body>
+      
+    <section id="page" data-role="page">
+        <article role="main" class="ui-content">
+           <h2>TOMADOR DE PEDIDOS</h2>
+          <!--<img src="img/touch/Logo.png"  width="40" id="logo">-->
+          <!-- <img src="img/icons/Logo.png"  width="50%" alt="">-->
+           <p><strong>Seleccione una opción</strong></p>          
+            <hr>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a id="pedidos"  rel="external" data-ajax="false"><img src="img/icons/order.png" alt="" width="100px" ><br>Pedidos</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="modules/configuration/configuration.html" data-ajax="false"><img src="img/icons/configuration.png" alt="" width="100px"><br>Configuración</a>
+                </div>
+            </div><!-- /grid-a -->
+            <hr/>
+           <div class="ui-grid-a">
+            <ul data-role="listview"  data-inset="true" id="lista"></ul>
+                <div class="ui-block-a">
+                    <a href="modules/Clients/clients.html" rel="external" data-ajax="false"><img src="img/icons/Clients.png" alt="" width="100px" ><br>Clientes</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="modules/products/products.html" rel="external" data-ajax="false"><img src="img/icons/products.png" alt="" width="100px"><br>Productos</a>
+                </div>
+            </div><!-- /grid-a -->
+             <hr/>
+           <div class="ui-grid-a">
+            <ul data-role="listview"  data-inset="true" id="lista"></ul>
+                <div class="ui-block-a">
+                    <a href="modules/Numerica/menu.html" rel="external" data-ajax="false"><img src="img/icons/stadistics.png" width="100px" ><br>Numerica</a>
+                </div>              
+            </div><!-- /grid-a -->
+            <hr>
+            <a href="#popupLogin" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition="pop">Identificarse</a>
+            <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">                
+                    <div style="padding:10px 20px;">
+                        <h3>Ingrese Su cedula:</h3>
+                        <label for="un" class="ui-hidden-accessible">Cedula:</label>
+                        <input type="number" name="cedula" id="cedula" value="" placeholder="Cedula" data-theme="a">
+                        <button   id="identificar" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Indentificarse</button>
+                    </div>                
+            </div>
+            <hr>
+            <div id="datosVendedor"></div>
+        </article><!-- /content -->
+       <!-- <footer data-role="footer" data-position="fixed">
+            <h1>Estigio Portal de Soluciones</h1>
+        </footer>--><!-- /footer -->
+    </section><!-- /page -->
+      
+        <script src="js/helper.js"></script>
+    </body>
+</html>
