@@ -23,7 +23,7 @@ function onDeviceReady () {
     }
 	
 	 function queryDBfiltrado(tx) {
-        tx.executeSql('SELECT * FROM producto where idregistro= '+localStorage.idregistro, [], cargarClientes, errorCB);
+        tx.executeSql('SELECT * FROM producto where idregistro= '+localStorage.idregistro+' or codigo='+localStorage.idregistro, [], cargarClientes, errorCB);
     }
 	
 	function successCBfiltrado() {
