@@ -8,7 +8,7 @@
         Walther Smith
     </author>
     <icon src="icon.png" />
-    <content src="index.html" />
+    <content src="wwww/index.html" />
     <access origin="*" />
     <gap:platform name="android" />
     <preference name="android-installLocation" value="auto" />
