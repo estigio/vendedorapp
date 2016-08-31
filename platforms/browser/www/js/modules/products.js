@@ -14,19 +14,19 @@ var maxSize = 42000000;
 function onDeviceReady () {
         db = window.openDatabase(shorname, version, displayName, maxSize);
         successCB();
-    successCBProveedor();
+	successCBProveedor();
 }
     // Query the database
     //
     function queryDB(tx) {
         tx.executeSql('SELECT * FROM producto', [], cargarClientes, errorCB);
     }
-    
-     function queryDBfiltrado(tx) {
+	
+	 function queryDBfiltrado(tx) {
         tx.executeSql('SELECT * FROM producto where idregistro= '+localStorage.idregistro, [], cargarClientes, errorCB);
     }
-    
-    function successCBfiltrado() {
+	
+	function successCBfiltrado() {
         db.transaction(queryDBfiltrado, errorCB);
     }
     // Query the success callback
@@ -57,9 +57,9 @@ function onDeviceReady () {
     function susses(){
         console.log("exito");
     }
-    
-    
-       function queryDBproveedor(tx) {
+	
+	
+	   function queryDBproveedor(tx) {
         tx.executeSql('SELECT DISTINCT nombreprove,idregistro FROM producto', [], cargarProveedor, errorCB);
     }
     // Query the success callback
@@ -71,13 +71,13 @@ function onDeviceReady () {
         $( ".selector" ).loader( "show" );
         for (var i=0; i<len; i++){
             lol+= '<option value="'+results.rows.item(i).idregistro+'">'+results.rows.item(i).nombreprove+'</option>';  
-            }
+			}
         $("#slcproveedor").html(lol);
         //$("#slcproveedor").listview("refresh");
         $( ".selector" ).loader( "hide" );
     }
-    
-    function successCBProveedor() {
+	
+	function successCBProveedor() {
         db.transaction(queryDBproveedor, errorCB);
     }
     function nullMethod(){
