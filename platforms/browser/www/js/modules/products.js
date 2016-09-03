@@ -37,7 +37,7 @@ function onDeviceReady () {
         var lol = "";
         $( ".selector" ).loader( "show" );
         for (var i=0; i<len; i++){
-            lol+= "<li><h2>"+ results.rows.item(i).descripcion+"</h2> <p>Cod:"+results.rows.item(i).codigo+" | 1 "+results.rows.item(i).nommedida+" | $"+results.rows.item(i).precioventa+" | Cantidad inventario: "+results.rows.item(i).cantidad+"</p></li>";        }
+            lol+= "<li><h2>"+ results.rows.item(i).descripcion+"</h2> <p>COD: "+results.rows.item(i).codigo+" |1 "+results.rows.item(i).nommedida+" | $"+results.rows.item(i).precioventa+" | Cantidad inventario: "+results.rows.item(i).cantidad+"</p></li>";        }
         $("#listProduct").html(lol);
         $("#listProduct").listview("refresh");
         $( ".selector" ).loader( "hide" );
