@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+       
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../../img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="../../img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="../../img/touch/apple-touch-icon.png">
+        
+        <!-- style mobile-->
+        <link rel="stylesheet" href="../../css/jquery.mobile-1.4.0.css">
+	
+        <!-- scripts -->
+        <script src="../../js/jquery-1.10.2.js"></script>
+        <script src="../../js/jquery.mobile-1.4.0.js"></script>
+        <script src="../../cordova.js"></script>
+        <!-- Personalizated script -->
+        <link rel="stylesheet" href="../../css/normalize.css">
+        <link rel="stylesheet" href="../../css/customIcons.css">
+        <link rel="stylesheet" href="../../css/main.css">         
+        <script src="../../js/modules/client.js"></script>
+        <script src="../../js/vendor/modernizr-2.6.2.min.js"></script>
+        <script type="text/javascript">
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady () {}
+            var db ;
+            var shorname ='quarxoDb';
+            var version = '1.0';
+            var displayName = 'Quarxodb';
+            var maxSize = 42000000;
+            db = window.openDatabase(shorname, version, displayName, maxSize);
+			
+        $( document ).bind( "pageinit", "#page", function() {
+            var get = getUrlVars();
+            getInfoClient(get["idcl"]);
+            getVariables(get["idcl"]);
+            
+            
+			
+			$("#btnPedido").on("click",function(){
+				window.location.href="../"
+			});
+			
+			
+
+        });
+		
+
+        function getInfoClient(id){
+            db.transaction(function (tx){
+                tx.executeSql('SELECT * FROM CLIENT where id = '+id+" order by barrio asc", [], function (tx, results){
+                     var len = results.rows.length;
+                     var datos = "";
+                     var btncliente = "null";
+                    for (var i=0; i<len; i++){
+                        datos += "<h2>Nombre: "+results.rows.item(i).name+" "+results.rows.item(i).lastname1+" "+results.rows.item(i).lastname2+"</h2>";
+                        datos +="<h3>Direccion: "+results.rows.item(i).address+"</h3>";
+                        datos +="<h3>Telefono: "+results.rows.item(i).phone+"</h3>";
+                        datos +="<h3>Barrio: "+results.rows.item(i).barrio+"</h3>";
+                        datos +="<h3>nit/cedula: "+results.rows.item(i).identification+"</h3>";
+                        datos += "<h4> Estado: "+results.rows.item(i).estado+"</h4>";
+			btncliente= results.rows.item(i).estado;
+                        if(results.rows.item(i).estado =="S" ){
+                            $("#btnvisto").html('<button id="btnSelect" >Señalar Como Visto Sin Pedido</button>');
+                        }
+                        
+                        $("#btnSelect").on("click",function(){
+                        updateEstado(id,'SP');
+                        getInfoClient(id);
+                         });
+                    }
+                   
+                    $("#infoClient").html(datos);
+					
+                    $('#page').trigger('create');
+
+                }, function (err){
+                    console.log(err.message);
+                });
+            },function (err){
+                    console.log(err.message);
+                },function(){
+                    console.log("info de cliente Cargada");
+                });
+
+        }
+        
+        
+        
+        function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+        </script>
+    </head>
+    <body>
+      
+	    <section id="page" data-role="page">
+			<header data-role="header" data-position="fixed" >
+				<h2>Informacion Cliente</h2>
+			</header><!-- /header -->
+			<article role="main" class="ui-content">
+                <img src="../../img/icons/user.png"  width="50%" alt="">
+				<div id="infoClient"></div>
+                                <span id="btnvisto"></span>
+                                <span id="editButton"></span>
+			</article><!-- /content -->
+			<div data-role="footer" class="nav-glyphish-example" data-theme="a" data-position="fixed">
+			    <div data-role="navbar" class="nav-glyphish-example" >
+			    <ul>
+			        <li><a href="clients.html" rel="external" data-ajax="false"  id="ufo" data-icon="custom">Inicio</a></li>
+			    </ul>
+			    </div>                          
+			</div><!-- /footer -->
+		</section><!-- /page -->
+      
+        <script src="../../js/helper.js"></script>
+
+    </body>
+</html>
