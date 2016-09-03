@@ -1,3 +1,0 @@
-# vendedorapp
-app vendedor
-test
