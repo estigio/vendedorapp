@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../../img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="../../img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="../../img/touch/apple-touch-icon.png">
+
+        <!-- style mobile-->
+        <link rel="stylesheet" href="../../css/jquery.mobile-1.4.0.css">
+
+        <!-- scripts -->
+        <script src="../../js/jquery-1.10.2.js"></script>
+        <script src="../../js/jquery.mobile-1.4.0.js"></script>
+        <script src="../../js/vendor/datepicker/external/jquery-ui/datepicker.js"></script>
+        <script src="../../js/vendor/datepicker/jquery.mobile.datepicker.js"></script>
+        <script src="../../cordova.js"></script> 
+
+        <!-- Personalizated script -->
+        <link rel="stylesheet" href="../../css/normalize.css">
+        <link rel="stylesheet" href="../../css/customIcons.css">
+        <link rel="stylesheet" href="../../css/main.css">
+        <!-- date Picker -->
+        <link href="../../js/vendor/datepicker/jquery.mobile.datepicker.css" rel="stylesheet" type="text/css"/>
+        <link href="../../js/vendor/datepicker/theme-template.css" rel="stylesheet" type="text/css"/>
+        <link href="../../js/vendor/datepicker/jquery.mobile.datepicker.theme.css" rel="stylesheet" type="text/css"/>
+        <!-- end datePicker -->
+        <script src="../../js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="../../js/modules/sync/sync.js"></script>
+        <script src="../../js/modules/trasportator.js"></script>
+        <script type="text/javascript">
+            document.addEventListener("deviceready", onDeviceReady, true);
+            function onDeviceReady() {
+                successCB();
+            }
+            $(document).bind("pageinit", "#page", function () {
+
+                var db;
+                var shorname = 'quarxoDb';
+                var version = '1.0';
+                var displayName = 'Quarxodb';
+                var maxSize = 42000000;
+                db = window.openDatabase(shorname, version, displayName, maxSize);
+
+                if (localStorage.hostData) {
+                    $("#host").val(localStorage.hostData);
+                }
+
+                $("#Import").click(function () {
+                    if (confirm('¿Esta seguro/a que desea Importar los datos a la aplicación?')) {
+                        if (localStorage.hostData || localStorage.hostData.lenght >= 10) {
+                            if ($("#fechaMeta").val().length > 5) {
+                                alert("Importando información usando el host :" + localStorage.hostData);
+                                createDatabase();
+                                sync_productos();
+                                sync_Tercero();
+                                sync_vendedor();
+                                //sync_prodprecioscant();
+                                sync_transportador();
+                                var dateTypeVar = $('#fechaMeta').datepicker('getDate');    
+                                var fecha = $.datepicker.formatDate('yy-mm-dd', dateTypeVar);                                
+                                sync_MetasDiarias(fecha);
+                            } else {
+                                 alert(" Seleccione una fecha para sincronizar las Metas");
+                            }
+                        } else {
+                            alert("Primero defina un Host");
+                        }
+                    }
+
+                });
+                $("#Export").click(function () {
+                    if (confirm('¿Esta seguro/a que desea Exportar los datos de la aplicación?')) {
+                        if (localStorage.hostData || localStorage.hostData.lenght >= 10) {
+                            var transpor = $("#datostrasport").val();
+                            formatjson_pedido(transpor);
+                            send_MetasDiarias();
+                            // formatjson_pedidoClientesAntiguos();
+                            //send_Client();
+                            // resartTble();
+                            //send_producto_pedidos();
+                        } else {
+                            alert("Primero defina un Host");
+                        }
+                    }
+                });
+                $("#SaveHost").click(function () {
+                    localStorage.hostData = $("#host").val();
+                    alert("Host Guardado con Exito");
+                });
+
+                $("#deleteData").click(function () {
+                    if (confirm('¿Esta seguro/a que desea Borrar los datos de la aplicacion?')) {
+                        reset();
+                    } else {
+                        // Do nothing!
+                    }
+
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+
+        <section id="page" data-role="page">
+            <header data-role="header" data-position="fixed" >
+
+            </header><!-- /header -->
+            <article role="main" class="ui-content">
+                <div data-role="collapsible-set" data-theme="a" data-content-theme="a">
+                    <div data-role="collapsible">
+                        <h3>Configuracion Servidor</h3>
+                        <label for="host">Servidor</label>
+                        <input id="host" type="url" >
+                        <a href="#" class="ui-btn ui-btn-inline" id="SaveHost" >Guardar</a>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>Importación</h3>
+                        fecha Metas
+                         <input type="text" data-role="date" id="fechaMeta">
+                         <hr>
+                        <a href="#" class="ui-btn ui-btn-inline" id="Import">Importar Datos</a>
+                        <p>Esta funcion reinicia los datos de clientes, vendedores y productos,
+                            y luego importa los datos nuevos desde el servidor</p>
+                       
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>Exportación</h3>                      
+                        <a href="#" class="ui-btn ui-btn-inline" id="Export">Exportar Datos</a>
+                        <hr>
+                        <p>Seleccione el transportador para añadir esta informacion  en los pedidos</p>
+                        <select id="datostrasport"></select>
+                        <p>Esta función, Exporta los datos de pedidos y clientes nuevos creados en la aplicacion y
+                            luego reinicia los datos de los pedidos </p>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>reset</h3>
+                        <a href="#" class="ui-btn ui-btn-inline" id="deleteData">Borrar datos</a>
+                        <p>Borra toda la información contenida en la aplicacion</p>
+                    </div>
+                </div>
+
+                <div id="deviceProperties"></div>
+            </article><!-- /content -->
+            <div data-role="footer" class="nav-glyphish-example" data-theme="a" data-position="fixed">
+                <div data-role="navbar" class="nav-glyphish-example" >
+                    <ul>
+                        <li><a href="../../index.html" rel="external" data-ajax="false" id="ufo" data-icon="custom">Inicio</a></li>
+                    </ul>
+                </div>
+            </div><!-- /footer -->
+        </section><!-- /page -->
+
+
+
+
+        <script src="../../js/helper.js"></script>
+
+    </body>
+</html>
