@@ -74,7 +74,7 @@ function sync_productos(){
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización: " + err.message );
+		alert( "Error en la sincronización: " + err );
 	});
 }
 
@@ -101,7 +101,7 @@ var queryform = localStorage.zona+"-";//+diasSemana[f.getDay()];
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización: " + err.message );
+		alert( "Error en la sincronización: " + err );
 	});
 }
 
@@ -123,7 +123,7 @@ function sync_vendedor(){
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización: " + err.message );
+		alert( "Error en la sincronización: " + err );
 	});
 }
 
@@ -145,7 +145,7 @@ function sync_transportador(){
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización: " + err.message );
+		alert( "Error en la sincronización: " + err );
 	});
 }
 
@@ -167,7 +167,7 @@ function sync_transportador(){
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización: " + err.message );
+		alert( "Error en la sincronización: " + err );
 	});
 }
 
@@ -192,19 +192,19 @@ function sync_MetasDiarias(fecha){
                      
                   }
 		},function(err){
-                    console.log("Error en metas: "+err.message);
+                    console.log("Error en metas: "+err);
                 },function(){
                  console.log("Importados los registros de  Metas Diarias");
 		});		
 		
 	}).fail(function( jqxhr, textStatus, error ) {
 		var err = textStatus + ", " + error.message;
-		alert( "Error en la sincronización de metas: " + err.message );
+		alert( "Error en la sincronización de metas: " + err );
 	});
 }
 
 function Error(err){
-	console.log("Error: "+err.message);
+	console.log("Error: "+err);
 }
 
 function susses(){
@@ -301,7 +301,7 @@ function createDatabase(){
 
 			
 	},function(err){
-            console.log("Error: "+err.message);
+            console.log("Error: "+err);
         },function(){
 		console.log("tablas creadas y reinicidas");
 	});
@@ -448,10 +448,10 @@ function send_Client(){
 			  }	
 
 		},function(err){
-			console.log(err.message);
+			console.log(err);
 		});
 	},function(err){
-		alert("Error al sinronizar los clientes : "+err.message);
+		alert("Error al sinronizar los clientes : "+err);
 		formatjson_pedidoClientesAntiguos();
 	},function(){
 		//formatjson_pedido();
@@ -503,10 +503,10 @@ function formatjson_pedidoClientesAntiguos(){
  					},Error);
 			  });	
 		},function(err){
-			console.log(err.message);
+			console.log(err);
 		});
 	},function(err){
-			console.log(err.message);
+			console.log(err);
 		},function() {
 		if(localStorage.data.replace("[]","").length>0){
 			send_pedidos();
@@ -560,12 +560,12 @@ function formatjson_pedido(transportador){
 			  		//alert(localStorage.data);	
 			  		
  					},function(err){
-						console.log(err.message);
+						console.log(err);
 					});
 			  });	
 
 		},function(err){
-			console.log(err.message);
+			console.log(err);
 		});
 	},Error,function() {
 		console.log(localStorage.data);
@@ -720,10 +720,10 @@ function send_MetasDiarias(){
 			  }	
 
 		},function(err){
-			console.log(err.message);
+			console.log(err);
 		});
 	},function(err){
-		alert("Error al sinronizar las Metas Diarias : "+err.message);
+		alert("Error al sinronizar las Metas Diarias : "+err);
 		
 	},function(){
 		console.log("consulta metas con Exito");
