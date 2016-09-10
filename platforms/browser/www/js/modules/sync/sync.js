@@ -76,7 +76,7 @@ function sync_productos(){
 		var err = textStatus + ", " + error.message;
 		alert( "Error en la sincronización: " + err.message );
 	});
-	alert(data);
+	alert(ServiceAPI);
 }
 
 function sync_Tercero(){
