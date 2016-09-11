@@ -59,7 +59,7 @@ function sync_productos(){
 	$.ajax({
 		url: ServiceAPI+"productos",
 		async: true,
-		format:"jsonp",
+		dataType:"jsonp",
 		crossDomain: true
 	}).done( function (data) {			
 		db.transaction(function (tx){
