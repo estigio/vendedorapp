@@ -65,7 +65,7 @@ function sync_productos(){
 		db.transaction(function (tx){
 		$.each( data, function( i, item ){
 		  		var sql="INSERT INTO producto (idproducto,codigo, descripcion, nommedida, precioventa, precioespecial1, precioespecial2,cantidad,nombreprove,idregistro) values ("+item.idproducto+",'"+item.codigo+"','"+item.descripcion+"','"+item.nommedida+"',"+item.precioventa+","+item.precioespecial1+","+item.precioespecial2+","+item.cantidad+",'"+item.nombre+"',"+item.idregistro+")";
-				//alert(sql);
+				alert(sql);
 				tx.executeSql(sql);
 			});
 		},Error,function(){
