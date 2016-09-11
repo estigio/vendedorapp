@@ -73,10 +73,11 @@ function sync_productos(){
 		});		
 		
 	}).fail(function( jqxhr, textStatus, error ) {
+	alert(error);
+		
 		var err = textStatus + ", " + error.message;
 		alert( "Error en la sincronización: " + err.message );
 	});
-	alert(ServiceAPI);
 }
 
 function sync_Tercero(){
