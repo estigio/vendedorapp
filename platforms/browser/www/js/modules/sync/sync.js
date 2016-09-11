@@ -73,7 +73,7 @@ function sync_productos(){
 		});		
 		
 	}).fail(function( jqxhr, textStatus, error ) {
-	alert(error);
+	alert(error+" aqui");
 		
 		var err = textStatus + ", " + error.message;
 		alert( "Error en la sincronización: " + err.message );
