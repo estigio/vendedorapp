@@ -74,7 +74,7 @@ function sync_productos(){
 		
 	},
 	error:function(e) {
-	alert(e+" aqui");
+	alert(url);
 		
 		var err = textStatus + ", " + e.message;
 		alert( "Error en la sincronización: " + err.message );
