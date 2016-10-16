@@ -56,6 +56,7 @@ function resartTble(){
 
 
 function sync_productos(){
+	alert('Url:'+ ServiceAPI);
 	$.ajax({
 		url: ServiceAPI+"productos",
 		async: true,
@@ -74,7 +75,6 @@ function sync_productos(){
 		
 	},
 	error:function(e) {
-	alert(url);
 		
 		var err = textStatus + ", " + e.message;
 		alert( "Error en la sincronización: " + err.message );
