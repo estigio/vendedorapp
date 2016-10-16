@@ -56,12 +56,13 @@ function resartTble(){
 
 
 function sync_productos(){
+	alert('Url:'+ ServiceAPI);
 	$.ajax({
 		url: ServiceAPI+"productos",
 		async: true,
 		format:"jsonp",
-		crossDomain: true
-	}).done( function (data) {			
+		crossDomain: true,
+		success:function (data) {			
 		db.transaction(function (tx){
 		$.each( data, function( i, item ){
 		  		var sql="INSERT INTO producto (idproducto,codigo, descripcion, nommedida, precioventa, precioespecial1, precioespecial2,cantidad,nombreprove,idregistro) values ("+item.idproducto+",'"+item.codigo+"','"+item.descripcion+"','"+item.nommedida+"',"+item.precioventa+","+item.precioespecial1+","+item.precioespecial2+","+item.cantidad+",'"+item.nombre+"',"+item.idregistro+")";
@@ -72,9 +73,12 @@ function sync_productos(){
 			alert("importados los registros  de productos");
 		});		
 		
-	}).fail(function( jqxhr, textStatus, error ) {
-		var err = textStatus + ", " + error.message;
+	},
+	error:function(e) {
+		
+		var err = textStatus + ", " + e.message;
 		alert( "Error en la sincronización: " + err.message );
+	}
 	});
 }
 
