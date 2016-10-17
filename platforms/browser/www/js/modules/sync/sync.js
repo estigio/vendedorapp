@@ -62,6 +62,7 @@ function sync_productos(){
 		async: true,
 		format:"jsonp",
 		crossDomain: true,
+		 jsonpCallback: "logResults",
 		success:function (data) {			
 		db.transaction(function (tx){
 		$.each( data, function( i, item ){

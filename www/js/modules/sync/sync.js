@@ -56,6 +56,7 @@ function resartTble(){
 
 
 function sync_productos(){
+	alert('Url 1: '+ localStorage.hostData);
 	$.ajax({
 		url: localStorage.hostData+"productos",
 		async: true,
@@ -75,7 +76,6 @@ function sync_productos(){
 		
 	},
 	error:function(e) {
-	alert('Url 1: '+ localStorage.hostData);
 		
 		var err = textStatus + ", " + e.message;
 		alert( "Error en la sincronización: " + err.message );
