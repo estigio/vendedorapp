@@ -55,7 +55,7 @@ function resartTble(){
 }
 
 
-function sync_productos(){
+/*function sync_productos(){
 	$.ajax({
 		url: localStorage.hostData+"productos",
 		async: true,
@@ -80,7 +80,26 @@ function sync_productos(){
 		alert( "Error en la sincronización: " + err.message );
 	}
 	});
-}
+}*/
+(function sync_productos() {
+  var url = localStorage.hostData+"productos";
+  $.getJSON( url, {
+    tags: "productos",
+    tagmode: "any",
+    format: "jsonp"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        var sql="INSERT INTO producto (idproducto,codigo, descripcion, nommedida, precioventa, precioespecial1, precioespecial2,cantidad,nombreprove,idregistro) values ("+item.idproducto+",'"+item.codigo+"','"+item.descripcion+"','"+item.nommedida+"',"+item.precioventa+","+item.precioespecial1+","+item.precioespecial2+","+item.cantidad+",'"+item.nombre+"',"+item.idregistro+")";
+				//alert(sql);
+				tx.executeSql(sql);
+      });
+    });
+    .fail(function() {
+    var err = textStatus + ", " + e.message;
+		alert( "jquery Error en la sincronización: " + err.message );
+  })
+})();
 
 function sync_Tercero(){
 var diasSemana = new Array("DOMINGO","LUNES","MARTES","MIERCOLES","JUEVES","VIERNES","SABADO");
