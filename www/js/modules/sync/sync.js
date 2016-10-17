@@ -58,7 +58,7 @@ function resartTble(){
 function sync_productos(){
 	alert('Url 1: '+ localStorage.hostData);
 	$.ajax({
-		url: localStorage.hostData+"productos",
+		url: localStorage.hostData+"productos?callback=?",
 		async: true,
 		format:"jsonp",
 		crossDomain: true,
