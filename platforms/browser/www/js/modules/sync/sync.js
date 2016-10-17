@@ -56,7 +56,7 @@ function resartTble(){
 
 
 function sync_productos(){
-	alert('Url:'+ ServiceAPI);
+	alert('Url:'+ localStorage.hostData);
 	$.ajax({
 		url: ServiceAPI+"productos",
 		async: true,
