@@ -58,7 +58,7 @@ function resartTble(){
 function sync_productos(){
 	alert('Url:'+ localStorage.hostData);
 	$.ajax({
-		url: ServiceAPI+"productos",
+		url: localStorage.hostData+"productos",
 		async: true,
 		format:"jsonp",
 		crossDomain: true,
@@ -88,7 +88,7 @@ var f=new Date();
 var queryform = localStorage.zona+"-";//+diasSemana[f.getDay()];
 	 
 	$.ajax({
-		url: ServiceAPI+"tercero?comment="+queryform,		
+		url: localStorage.hostData+"tercero?comment="+queryform,		
 		async: true,
 		format:"jsonp",
 		crossDomain: true
@@ -111,7 +111,7 @@ var queryform = localStorage.zona+"-";//+diasSemana[f.getDay()];
 
 function sync_vendedor(){
 	$.ajax({
-		url: ServiceAPI+"vendedor",
+		url: localStorage.hostData+"vendedor",
 		async: true,
 		format:"jsonp",
 		crossDomain: true
@@ -133,7 +133,7 @@ function sync_vendedor(){
 
 function sync_transportador(){
 	$.ajax({
-		url: ServiceAPI+"transportador",
+		url: localStorage.hostData+"transportador",
 		async: true,
 		format:"jsonp",
 		crossDomain: true
@@ -155,7 +155,7 @@ function sync_transportador(){
 
 function sync_transportador(){
 	$.ajax({
-		url: ServiceAPI+"transportador",
+		url: localStorage.hostData+"transportador",
 		async: true,
 		format:"jsonp",
 		crossDomain: true
@@ -176,9 +176,9 @@ function sync_transportador(){
 }
 
 function sync_MetasDiarias(fecha){
-    console.log(ServiceAPI+"metasDiarias?idvendedor="+localStorage.vendedor);
+    console.log(localStorage.hostData+"metasDiarias?idvendedor="+localStorage.vendedor);
 	$.ajax({
-		url: ServiceAPI+"metasDiarias?idvendedor="+localStorage.vendedor+"&fecha="+fecha,
+		url: localStorage.hostData+"metasDiarias?idvendedor="+localStorage.vendedor+"&fecha="+fecha,
 		async: true,
 		format:"jsonp",
 		crossDomain: true
@@ -426,7 +426,7 @@ function send_Client(){
 			 //alert("tamaño del array de clientes: "+data.length);
 			  if (data.length >0) {
 			  	$.ajax({
-			  		url: ServiceAPI+"guardarClientes",
+			  		url: localStorage.hostData+"guardarClientes",
 			  		type: 'post',
 			  		data: {"datos":JSON.stringify(data)},
 			  		async: true,
@@ -587,7 +587,7 @@ function send_pedidos(){
 	//formatjson_pedido();
 	console.log(localStorage.data);
 	$.ajax({
-			url: ServiceAPI+"guardarPedidos",
+			url: localStorage.hostData+"guardarPedidos",
   			type: 'post',
 		  	data: {"datos":localStorage.data},
 		  	async: true,
@@ -676,7 +676,7 @@ function verificate( data ){
 			  }
 			  //alert(JSON.stringify(data));
 			  $.ajax({
-			  		url: ServiceAPI+"guardarClientes",
+			  		url: localStorage.hostData+"guardarClientes",
 			  		type: 'post',
 			  		data: {"datos":JSON.stringify(data)},
 			  		success: function (data) {
@@ -707,7 +707,7 @@ function send_MetasDiarias(){
 			 //alert("tamaño del array de clientes: "+data.length);
 			  if (data.length >0) {
 			  	$.ajax({
-			  		url: ServiceAPI+"actualizarMetas",
+			  		url: localStorage.hostData+"actualizarMetas",
 			  		type: 'post',
 			  		data: {"datos":JSON.stringify(data)},
 			  		async: true,
