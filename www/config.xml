@@ -10,6 +10,7 @@
     <icon src="icon.png" />
     <content src="index.html" />
     <access origin="*" />
+    <access origin="http://186.183.181.62" />
     <access origin="content:///*" />
     
     <feature name="Device">
