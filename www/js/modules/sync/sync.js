@@ -56,14 +56,12 @@ function resartTble(){
 
 
 function sync_productos(){
-	alert('Url 1: '+ localStorage.hostData);
+	alert('Url pro: '+ localStorage.hostData+"productos?idvendedor="+localStorage.vendedor);
 	$.ajax({
-		url: localStorage.hostData+"productos?idvendedor="+localStorage.vendedor+"&callback=?",
+		url: localStorage.hostData+"productos?idvendedor="+localStorage.vendedor,
 		async: true,
 		format:"jsonp",
 		crossDomain: true,
-		 jsonp: 'callback',
-            jsonpCallback: 'jsonpCallback',
 		success:function (data) {			
 		db.transaction(function (tx){
 		$.each( data, function( i, item ){
